@@ -1,3 +1,71 @@
 snippet std "use namespace std" b
 using namespace std;
 endsnippet
+
+snippet tp "template <typename ..> (template)"
+template <typename ${1:_InputIter}>
+endsnippet
+
+snippet st "struct" b
+struct ${1:Struct} {
+	$2
+};
+endsnippet
+
+snippet class "class" b
+class ${1:Class} {
+public:
+	$1();
+	~$1();
+private:
+};
+endsnippet
+
+snippet func "function definition" b
+${2:void} ${1:name}($3) {
+	${4:${VISUAL}}
+}
+endsnippet
+
+snippet rpq "reverse priority queue" b
+priority_queue<${1:type}, vector<$1>, greater<$1> > ${2:name};
+endsnippet
+
+snippet xming "my template" b
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <set>
+#include <queue>
+#include <utility>
+#include <algorithm>
+#include <map>
+#include <cassert>
+using namespace std;
+#define REPP(i,a,b) for(int i = (a); i < (b); ++i)
+#define REP(i,a) for(int i = 0; i < (a); ++i)
+#define PER(i,a) for(int i = (a) - 1; i >= 0; --i)
+#define SZ(x) ((int)(x).size())
+#define ALL(x) (x).begin(), (x).end()
+#define MP make_pair
+
+typedef long long ll;
+typedef pair<int, int> pii;
+
+endsnippet
+
+global !p
+def list_files():
+    files = []
+    for f in os.listdir('.'):
+        if f.endswith(('.cpp', '.h', '.cc')) and not f.startswith('.'):
+            files.append(f)
+    return ' '.join(files)
+endglobal
+
+snippet ls "list source files" w
+`!p snip.rv = list_files()`
+endsnippet
