@@ -2,6 +2,29 @@ snippet std "use namespace std" b
 using namespace std;
 endsnippet
 
+snippet def "#define ..." b
+#define $1
+endsnippet
+
+snippet #ifndef "#ifndef ... #define ... #endif" b
+#ifndef $1
+#define ${1:SYMBOL}
+${VISUAL}$0
+#endif /* ifndef $1 */
+endsnippet
+
+snippet #if "#if #endif" b
+#if $1
+	${VISUAL}$0
+#endif
+endsnippet
+
+snippet #ifdef "ifdef" b
+#ifdef ${1:LOCAL}
+	${VISUAL}$0
+#endif
+endsnippet
+
 snippet tp "template <typename ..> (template)"
 template <typename ${1:_InputIter}>
 endsnippet
@@ -12,7 +35,7 @@ struct ${1:Struct} {
 };
 endsnippet
 
-snippet class "class" b
+snippet cls "class" b
 class ${1:Class} {
 public:
 	$1();
