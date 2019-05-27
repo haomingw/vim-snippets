@@ -21,9 +21,16 @@ private:
 };
 endsnippet
 
+snippet main "main function" b
+int main(int argc, char *argv[]) {
+	${VISUAL}$0
+	return 0;
+}
+endsnippet
+
 snippet func "function definition" b
 ${2:void} ${1:name}($3) {
-	${4:${VISUAL}}
+	${VISUAL}$0
 }
 endsnippet
 
