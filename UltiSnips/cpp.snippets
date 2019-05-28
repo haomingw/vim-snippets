@@ -61,6 +61,18 @@ ${2:void} ${1:name}($3) {
 }
 endsnippet
 
+snippet sc "scanf" b
+scanf("${1:%d}", $2);
+endsnippet
+
+snippet pr "printf" b
+printf("${1:%d\n}", ${2:ans});
+endsnippet
+
+snippet ctl "cout..endl" b
+cout << $1 << endl;
+endsnippet
+
 snippet pb "push_back" w
 push_back($1);
 endsnippet
