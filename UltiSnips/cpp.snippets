@@ -51,6 +51,10 @@ int main(int argc, char *argv[]) {
 }
 endsnippet
 
+snippet all "begin..end" w
+$1.begin(), $1.end()
+endsnippet
+
 snippet func "function definition" b
 ${2:void} ${1:name}($3) {
 	${VISUAL}$0
