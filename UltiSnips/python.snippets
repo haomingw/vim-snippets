@@ -16,6 +16,13 @@ class ${1:Class}:
 		${3:pass}
 endsnippet
 
+snippet meta "metaclass" b
+class ${1:Class}Metaclass(type):
+    def __new__(cls, name, bases, attrs):
+        $2
+        return type.__new__(cls, name, bases, attrs)
+endsnippet
+
 snippet str "to string method" b
 def __str__(self):
 	${1:pass}
