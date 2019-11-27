@@ -5,6 +5,64 @@ snippet head "Shebang header for python scripts" b
 $0
 endsnippet
 
+snippet if "if" w
+if ${1:expression}:
+	${2:pass}
+$0
+endsnippet
+
+snippet ifel "if/else" w
+if ${1:expression}:
+	${2:pass}
+else:
+	${3:pass}
+$0
+endsnippet
+
+snippet elif "elif" w
+elif ${1:expression}:
+	${2:pass}
+$0
+endsnippet
+
+snippet el "else" w
+else ${1:expression}:
+	${2:pass}
+$0
+endsnippet
+
+snippet wh "while loop" w
+while ${1:expression}:
+	${2:pass}
+$0
+endsnippet
+
+snippet def "function definition" w
+def ${1:funcname}(${2:parameters}):
+	${3:pass}
+$0
+endsnippet
+
+snippet defm "method" w
+def ${1:funcname}(self, ${2:parameters}):
+	${3:pass}
+$0
+endsnippet
+
+snippet defs "static method" w
+@staticmethod
+def ${1:funcname}(${2:parameters}):
+	${3:pass}
+$0
+endsnippet
+
+snippet defc "class method" w
+@classmethod
+def ${1:funcname}(cls, ${2:parameters}):
+	${3:pass}
+$0
+endsnippet
+
 snippet " "docstring" w
 """$1"""
 endsnippet
