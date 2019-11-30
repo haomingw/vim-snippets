@@ -70,31 +70,33 @@ ${2:void} ${1:name}($3) {
 endsnippet
 
 global !p
+import re
+
 def dynamic_scanf(snip):
     line = snip.buffer[snip.line]
-    s = line.strip()[2:]
+    s = re.search(r'sc(\d*)', line).group(1)
     n = int(s) if s else 1
-    snip.buffer[snip.line] = ' ' * line.index('sc')
+    snip.buffer[snip.line] = line[:line.index('sc')]
     fields = ', '.join(['$' + str(i+1) for i in range(n)])
     body = 'scanf("{}", {});'.format('%d' * n, fields)
     snip.expand_anon(body)
 
 def dynamic_printf(snip):
     line = snip.buffer[snip.line]
-    s = line.strip()[2:]
+    s = re.search(r'pr(\d*)', line).group(1)
     n = int(s) if s else 1
-    snip.buffer[snip.line] = ' ' * line.index('pr')
+    snip.buffer[snip.line] = line[:line.index('pr')]
     fields = ', '.join(['$' + str(i+1) for i in range(n)])
     body = r'printf("{}\n", {});'.format(' '.join(['%d'] * n), fields)
     snip.expand_anon(body)
 endglobal
 
 pre_expand "dynamic_scanf(snip)"
-snippet "sc(\d*)" "dynamic scanf expand" br
+snippet "sc(\d*)" "dynamic scanf expand" wr
 endsnippet
 
 pre_expand "dynamic_printf(snip)"
-snippet "pr(\d*)" "dynamic printf expand" br
+snippet "pr(\d*)" "dynamic printf expand" wr
 endsnippet
 
 snippet ctl "cout..endl" b
