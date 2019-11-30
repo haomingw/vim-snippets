@@ -69,12 +69,32 @@ ${2:void} ${1:name}($3) {
 }
 endsnippet
 
-snippet sc "scanf" b
-scanf("${1:%d}", $2);
+global !p
+def dynamic_scanf(snip):
+    line = snip.buffer[snip.line]
+    s = line.strip()[2:]
+    n = int(s) if s else 1
+    snip.buffer[snip.line] = ' ' * line.index('sc')
+    fields = ', '.join(['$' + str(i+1) for i in range(n)])
+    body = 'scanf("{}", {});'.format('%d' * n, fields)
+    snip.expand_anon(body)
+
+def dynamic_printf(snip):
+    line = snip.buffer[snip.line]
+    s = line.strip()[2:]
+    n = int(s) if s else 1
+    snip.buffer[snip.line] = ' ' * line.index('pr')
+    fields = ', '.join(['$' + str(i+1) for i in range(n)])
+    body = r'printf("{}\n", {});'.format(' '.join(['%d'] * n), fields)
+    snip.expand_anon(body)
+endglobal
+
+pre_expand "dynamic_scanf(snip)"
+snippet "sc(\d*)" "dynamic scanf expand" br
 endsnippet
 
-snippet pr "printf" b
-printf("${1:%d\n}", ${2:ans});
+pre_expand "dynamic_printf(snip)"
+snippet "pr(\d*)" "dynamic printf expand" br
 endsnippet
 
 snippet ctl "cout..endl" b
