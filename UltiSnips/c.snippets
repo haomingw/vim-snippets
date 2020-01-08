@@ -1,0 +1,100 @@
+snippet head "file header" b
+/**
+ *    author:  `!v g:snips_author`
+ *    created: `date +"%Y-%m-%d %H:%M:%S"`
+**/
+$0
+endsnippet
+
+snippet inc "#include lib" b
+#include <$1>
+endsnippet
+
+snippet #ifndef "#ifndef ... #define ... #endif" b
+#ifndef $1
+#define ${1:SYMBOL}
+${VISUAL}$0
+#endif /* ifndef $1 */
+endsnippet
+
+snippet #if "#if #endif" b
+#if $1
+	${VISUAL}$0
+#endif
+endsnippet
+
+snippet #ifdef "ifdef" b
+#ifdef ${1:LOCAL}
+	${VISUAL}$0
+#endif
+endsnippet
+
+snippet st "struct" b
+struct ${1:Struct} {
+	$2
+};
+endsnippet
+
+snippet func "function definition" b
+${2:void} ${1:name}($3) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet main "main function" b
+int main(int argc, char *argv[]) {
+	${VISUAL}$0
+	return 0;
+}
+endsnippet
+
+global !p
+import re
+
+def dynamic_scanf(snip):
+    line = snip.buffer[snip.line]
+    s = re.search(r'sc(\d*)', line).group(1)
+    n = int(s) if s else 1
+    snip.buffer[snip.line] = line[:line.index('sc')]
+    fields = ', '.join(['$' + str(i+1) for i in range(n)])
+    body = 'scanf("{}", {});'.format('%d' * n, fields)
+    snip.expand_anon(body)
+
+def dynamic_printf(snip):
+    line = snip.buffer[snip.line]
+    s = re.search(r'pr(\d*)', line).group(1)
+    n = int(s) if s else 1
+    snip.buffer[snip.line] = line[:line.index('pr')]
+    fields = ', '.join(['$' + str(i+1) for i in range(n)])
+    body = r'printf("{}\n", {});'.format(' '.join(['%d'] * n), fields)
+    snip.expand_anon(body)
+endglobal
+
+pre_expand "dynamic_scanf(snip)"
+snippet "sc(\d*)" "dynamic scanf expand" wr
+endsnippet
+
+pre_expand "dynamic_printf(snip)"
+snippet "pr(\d*)" "dynamic printf expand" wr
+endsnippet
+
+snippet pri "print int" w
+printf("%d ", $1);
+endsnippet
+
+snippet pu "puts" w
+puts("$1");
+endsnippet
+
+global !p
+def list_files():
+    files = []
+    for f in os.listdir('.'):
+        if f.endswith(('.cpp', '.h', '.cc')) and not f.startswith('.'):
+            files.append(f)
+    return ' '.join(files)
+endglobal
+
+snippet ls "list source files" w
+`!p snip.rv = list_files()`
+endsnippet
