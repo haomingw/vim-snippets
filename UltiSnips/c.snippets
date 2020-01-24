@@ -10,10 +10,9 @@ snippet inc "#include lib" b
 #include <$1>
 endsnippet
 
-snippet #ifndef "#ifndef ... #define ... #endif" b
-#ifndef $1
-#define ${1:SYMBOL}
-${VISUAL}$0
+snippet ifndef "#ifndef ... #define ... #endif"
+#ifndef ${1/([A-Za-z0-9_]+).*/$1/}
+#define ${1:SYMBOL} ${2:value}
 #endif /* ifndef $1 */
 endsnippet
 
@@ -23,10 +22,16 @@ snippet #if "#if #endif" b
 #endif
 endsnippet
 
-snippet #ifdef "ifdef" b
+snippet ifdef "ifdef" b
 #ifdef ${1:LOCAL}
 	${VISUAL}$0
 #endif
+endsnippet
+
+snippet if "if (...)"
+if (${1:true}) {
+	${VISUAL}$0
+}
 endsnippet
 
 snippet st "struct" b
@@ -78,11 +83,11 @@ pre_expand "dynamic_printf(snip)"
 snippet "pr(\d*)" "dynamic printf expand" wr
 endsnippet
 
-snippet pri "print int" w
+snippet pri "print int"
 printf("%d ", $1);
 endsnippet
 
-snippet pu "puts" w
+snippet pu "puts"
 puts("$1");
 endsnippet
 
