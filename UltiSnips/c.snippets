@@ -53,6 +53,23 @@ int main(int argc, char *argv[]) {
 }
 endsnippet
 
+snippet hash "main function for hashcode" b
+int main(int argc, char* argv[]) {
+	ios_base::sync_with_stdio(0), cin.tie(0);
+#ifdef LOCAL
+	assert(argc == 2);
+	string input = argv[1];
+	assert(SZ(input) > 3 && input.substr(SZ(input) - 3) == ".in");
+	string output = "output/" + input.substr(0, input.size() - 3) + ".out";
+
+	freopen(input.c_str(), "r", stdin);
+	freopen(output.c_str(), "w", stdout);
+#endif
+	solve();
+	return 0;
+}
+endsnippet
+
 global !p
 import re
 
