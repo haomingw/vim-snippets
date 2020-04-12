@@ -75,6 +75,23 @@ typedef pair<int, int> pii;
 $0
 endsnippet
 
+snippet codejam "main function for codejam" b
+void solve() {
+	${VISUAL}$0
+}
+
+int main() {
+	ios_base::sync_with_stdio(0), cin.tie(0);
+	int T;
+	cin >> T;
+	REP(i, T) {
+		cout << "Case #" << i + 1 << ": ";
+		solve();
+	}
+	return 0;
+}
+endsnippet
+
 snippet hash "main function for hashcode" b
 int main(int argc, char* argv[]) {
 	ios_base::sync_with_stdio(0), cin.tie(0);
