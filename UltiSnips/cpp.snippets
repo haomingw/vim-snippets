@@ -79,7 +79,20 @@ typedef pair<int, int> pii;
 $0
 endsnippet
 
-snippet codejam "main function for codejam" b
+snippet cf "main function for codeforces" b
+void solve() {
+	${VISUAL}$0
+}
+
+int main() {
+	int t;
+	scanf("%d", &t);
+	while (t--) solve();
+	return 0;
+}
+endsnippet
+
+snippet cj "main function for codejam" b
 void solve() {
 	${VISUAL}$0
 }
