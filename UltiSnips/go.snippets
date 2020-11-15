@@ -1,0 +1,32 @@
+snippet tc "my testcase" b
+package ${1:pkg}
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func Test$2(t *testing.T) {
+	type args struct {
+		$3
+	}
+	tests := []struct {
+		args     args
+		expected $4
+	}{
+		{
+			args: args{
+			},
+			expected: ,
+		},
+	}
+	for _, tc := range tests {
+		testname := fmt.Sprintf("%v", $5)
+		t.Run(testname, func(t *testing.T) {
+			assert.Equal(t, tc.expected, $2($5))
+		})
+	}
+}
+endsnippet
