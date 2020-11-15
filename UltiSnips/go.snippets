@@ -1,6 +1,4 @@
 snippet tc "my testcase" b
-package ${1:pkg}
-
 import (
 	"fmt"
 	"testing"
@@ -8,13 +6,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test$2(t *testing.T) {
+func Test$1(t *testing.T) {
 	type args struct {
-		$3
+		$2
 	}
 	tests := []struct {
 		args     args
-		expected $4
+		expected $3
 	}{
 		{
 			args: args{
@@ -23,9 +21,9 @@ func Test$2(t *testing.T) {
 		},
 	}
 	for _, tc := range tests {
-		testname := fmt.Sprintf("%v", $5)
+		testname := fmt.Sprintf("%v", $4)
 		t.Run(testname, func(t *testing.T) {
-			assert.Equal(t, tc.expected, $2($5))
+			assert.Equal(t, tc.expected, $1($4))
 		})
 	}
 }
