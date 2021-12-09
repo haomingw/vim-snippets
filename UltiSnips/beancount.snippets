@@ -1,0 +1,11 @@
+global !p
+def today():
+	from datetime import date
+	return date.today().strftime("%Y-%m-%d")
+endglobal
+
+snippet card "Credit card" w
+`!p snip.rv = today()` * "Pay off ${1:HelloBank} bill"
+	Liabilities:CreditCard:$1 $2 EUR
+	Assets:Bank:$1
+endsnippet
