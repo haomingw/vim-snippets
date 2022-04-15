@@ -134,93 +134,66 @@ int main() {
 }
 endsnippet
 
-snippet db "debug" w
-template <typename A, typename B>
-string to_string(pair<A, B> p);
+snippet maxflow "maxflow template" b
+template <typename T>
+struct MaxFlow {
+	static const int MAXV = 10000, MAXE = 10000; // E * 2
+	T cap[MAXE], flow[MAXE];
+	int to[MAXE], prev[MAXE], last[MAXV], used[MAXV], level[MAXV];
+	int V, E;
 
-template <typename A, typename B, typename C>
-string to_string(tuple<A, B, C> p);
-
-template <typename A, typename B, typename C, typename D>
-string to_string(tuple<A, B, C, D> p);
-
-string to_string(const string& s) {
-	return '"' + s + '"';
-}
-
-string to_string(const char* s) {
-	return to_string((string) s);
-}
-
-string to_string(bool b) {
-	return (b ? "true" : "false");
-}
-
-string to_string(vector<bool> v) {
-	bool first = true;
-	string res = "{";
-	for (int i = 0; i < static_cast<int>(v.size()); i++) {
-		if (!first) {
-			res += ", ";
-		}
-		first = false;
-		res += to_string(v[i]);
-		}
-	res += "}";
-	return res;
-}
-
-template <size_t N>
-string to_string(bitset<N> v) {
-	string res = "";
-	for (size_t i = 0; i < N; i++) {
-		res += static_cast<char>('0' + v[i]);
+	MaxFlow(int n) {
+		V = n, E = 0;
+		for (int i = 0; i < V; i++) last[i] = -1;
 	}
-	return res;
-}
 
-template <typename A>
-string to_string(A v) {
-	bool first = true;
-	string res = "{";
-	for (const auto &x : v) {
-		if (!first) {
-			res += ", ";
-		}
-		first = false;
-		res += to_string(x);
+	void add_edge(int x, int y, T c) {
+		cap[E] = c, flow[E] = 0, to[E] = y, prev[E] = last[x];
+		last[x] = E++;
+		cap[E] = 0, flow[E] = 0, to[E] = x, prev[E] = last[y];
+		last[y] = E++;
 	}
-	res += "}";
-	return res;
-}
 
-template <typename A, typename B>
-string to_string(pair<A, B> p) {
-	return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
-}
+	bool bfs(int s, int t) {
+		for (int i = 0; i < V; i++) level[i] = -1;
+		queue<int> q;
+		q.push(s);
+		level[s] = 0;
+		while (!q.empty()) {
+			int x = q.front();
+			q.pop();
+			for (int i = last[x]; i >= 0; i = prev[i]) {
+				if (level[to[i]] == -1 && cap[i] > flow[i]) {
+					q.push(to[i]);
+					level[to[i]] = level[x] + 1;
+				}
+			}
+		}
+		return level[t] != -1;
+	}
 
-template <typename A, typename B, typename C>
-string to_string(tuple<A, B, C> p) {
-	return "(" + to_string(get<0>(p)) + ", " + to_string(get<1>(p)) + ", " + to_string(get<2>(p)) + ")";
-}
+	T dfs(int u, int v, T maxc) {
+		if (u == v) return maxc;
+		for (int i = used[u]; i >= 0; used[u] = i = prev[i]) {
+			if (level[to[i]] > level[u] && cap[i] > flow[i]) {
+				T tmp = dfs(i, v, min(maxc, cap[i] - flow[i]));
+				if (tmp > 0) {
+					flow[i] += tmp, flow[i ^ 1] -= tmp;
+					return tmp;
+				}
+			}
+		}
+		return 0;
+	}
 
-template <typename A, typename B, typename C, typename D>
-string to_string(tuple<A, B, C, D> p) {
-	return "(" + to_string(get<0>(p)) + ", " + to_string(get<1>(p)) + ", " + to_string(get<2>(p)) + ", " + to_string(get<3>(p)) + ")";
-}
-
-void debug_out() { cerr << endl; }
-
-template <typename Head, typename... Tail>
-void debug_out(Head H, Tail... T) {
-	cerr << " " << to_string(H);
-	debug_out(T...);
-}
-
-#ifdef LOCAL
-#define debug(...) cerr << "[" << #__VA_ARGS__ << "]:", debug_out(__VA_ARGS__)
-#else
-#define debug(...)
-#endif
+	T solve(int s, int t) {
+		while (bfs(s, t)) {
+			for (int i = 0; i < V; i++) used[i] = last[i];
+			dfs(s, t, numeric_limits<T>::max());
+		}
+		T ans = 0;
+		for (int i = last[s]; i >= 0; i = prev[i]) ans += flow[i];
+		return ans;
+	}
+};
 endsnippet
-
