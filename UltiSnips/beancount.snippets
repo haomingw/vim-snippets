@@ -5,7 +5,7 @@ def today():
 endglobal
 
 snippet card "Credit card" w
-`!p snip.rv = today()` * "Pay off ${1:HelloBank} bill"
-	Liabilities:CreditCard:$1 $2 EUR
-	Assets:Bank:$1
+${1:`!p snip.rv = today()`} * "Pay off ${2:HelloBank} bill"
+	Liabilities:CreditCard:$2 $3 EUR
+	Assets:Bank:$2
 endsnippet
